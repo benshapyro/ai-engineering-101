@@ -166,7 +166,7 @@ Create a Python module that:
 3. Includes metadata (purpose, optimal temperature)
 4. Provides examples of successful outputs
 
-See `exercises/prompt_library_starter.py` for starter code.
+See `project/prompt_library_starter.py` for starter code.
 
 ## 🎯 Module Challenge
 
