@@ -1,0 +1,274 @@
+{
+  "classification": {
+    "instructions": "Classify the input into appropriate categories based on the task requirements.",
+    "template": "Classify the following {input_type} into one of these categories: {categories}.\n\nClassification criteria:\n{criteria}\n\nInput: {input_text}\n\nCategory:",
+    "best_practices": {
+      "temperature": 0.1,
+      "max_tokens": 50,
+      "tips": [
+        "Define clear, mutually exclusive categories",
+        "Provide classification criteria",
+        "Specify output format (category name only)",
+        "Include fallback category for edge cases"
+      ]
+    },
+    "examples": {
+      "sentiment": {
+        "categories": ["Positive", "Negative", "Neutral", "Mixed"],
+        "criteria": "Consider overall tone and emotional content"
+      },
+      "priority": {
+        "categories": ["Critical", "High", "Medium", "Low"],
+        "criteria": "Based on urgency and business impact"
+      },
+      "topic": {
+        "categories": ["Technology", "Business", "Science", "Health", "Other"],
+        "criteria": "Main subject matter of the content"
+      }
+    }
+  },
+
+  "extraction": {
+    "instructions": "Extract specific information from the input text as requested.",
+    "template": "Extract the following information from the text:\n{fields_to_extract}\n\nExtraction rules:\n- Only extract explicitly mentioned information\n- Use 'N/A' for missing fields\n- Preserve original formatting\n\nText: {input_text}\n\nExtracted information:",
+    "best_practices": {
+      "temperature": 0.0,
+      "max_tokens": 200,
+      "tips": [
+        "List specific fields to extract",
+        "Define format for each field",
+        "Specify handling of missing data",
+        "Use structured output format (JSON, list, etc.)"
+      ]
+    },
+    "examples": {
+      "contact_info": {
+        "fields": ["name", "email", "phone", "address"],
+        "format": "JSON"
+      },
+      "financial_data": {
+        "fields": ["revenue", "profit", "growth_rate", "market_cap"],
+        "format": "structured_list"
+      },
+      "dates_events": {
+        "fields": ["date", "event", "location", "participants"],
+        "format": "table"
+      }
+    }
+  },
+
+  "generation": {
+    "instructions": "Generate new content based on the specified requirements.",
+    "template": "Generate {content_type} with the following specifications:\n{requirements}\n\nConstraints:\n{constraints}\n\nContext: {input_text}\n\nGenerated content:",
+    "best_practices": {
+      "temperature": 0.7,
+      "max_tokens": 300,
+      "tips": [
+        "Specify content type and purpose",
+        "Define length and format requirements",
+        "Set tone and style guidelines",
+        "Include any must-have elements"
+      ]
+    },
+    "examples": {
+      "email": {
+        "content_type": "professional email",
+        "requirements": "greeting, body, closing",
+        "constraints": "150 words max, formal tone"
+      },
+      "product_description": {
+        "content_type": "product description",
+        "requirements": "features, benefits, target audience",
+        "constraints": "engaging, SEO-friendly, 100-200 words"
+      },
+      "code": {
+        "content_type": "code function",
+        "requirements": "input validation, error handling, documentation",
+        "constraints": "efficient, readable, follows best practices"
+      }
+    }
+  },
+
+  "analysis": {
+    "instructions": "Analyze the input according to specified criteria and provide insights.",
+    "template": "Analyze the following {input_type} for:\n{analysis_criteria}\n\nInput: {input_text}\n\nProvide:\n1. Key observations\n2. Patterns or trends\n3. Potential issues\n4. Recommendations\n\nAnalysis:",
+    "best_practices": {
+      "temperature": 0.3,
+      "max_tokens": 400,
+      "tips": [
+        "Define specific analysis dimensions",
+        "Request evidence-based insights",
+        "Ask for actionable recommendations",
+        "Specify desired depth of analysis"
+      ]
+    },
+    "examples": {
+      "code_quality": {
+        "criteria": ["readability", "efficiency", "security", "maintainability"],
+        "output": "scored_assessment"
+      },
+      "text_analysis": {
+        "criteria": ["tone", "clarity", "structure", "persuasiveness"],
+        "output": "detailed_feedback"
+      },
+      "data_analysis": {
+        "criteria": ["trends", "anomalies", "correlations", "predictions"],
+        "output": "statistical_summary"
+      }
+    }
+  },
+
+  "transformation": {
+    "instructions": "Transform the input from one format or style to another.",
+    "template": "Transform the following {source_format} to {target_format}:\n\nTransformation rules:\n{rules}\n\nSource: {input_text}\n\nTransformed output:",
+    "best_practices": {
+      "temperature": 0.2,
+      "max_tokens": 300,
+      "tips": [
+        "Clearly define source and target formats",
+        "Specify what to preserve vs change",
+        "Handle edge cases explicitly",
+        "Maintain semantic meaning"
+      ]
+    },
+    "examples": {
+      "format_conversion": {
+        "source": "JSON",
+        "target": "XML",
+        "rules": "preserve all data, use semantic tag names"
+      },
+      "style_adaptation": {
+        "source": "technical documentation",
+        "target": "user-friendly guide",
+        "rules": "simplify jargon, add examples, maintain accuracy"
+      },
+      "language_level": {
+        "source": "expert-level text",
+        "target": "beginner-friendly explanation",
+        "rules": "define terms, use analogies, shorter sentences"
+      }
+    }
+  },
+
+  "validation": {
+    "instructions": "Validate the input against specified criteria and rules.",
+    "template": "Validate the following {input_type} against these criteria:\n{validation_rules}\n\nInput: {input_text}\n\nValidation results:\n- Status: [Valid/Invalid]\n- Issues found: [list]\n- Suggestions: [if applicable]\n\nValidation report:",
+    "best_practices": {
+      "temperature": 0.0,
+      "max_tokens": 200,
+      "tips": [
+        "Define clear validation rules",
+        "Check all criteria systematically",
+        "Provide specific error messages",
+        "Suggest fixes when possible"
+      ]
+    },
+    "examples": {
+      "email_validation": {
+        "rules": ["proper format", "valid domain", "no prohibited characters"],
+        "output": "pass_fail_with_details"
+      },
+      "code_validation": {
+        "rules": ["syntax correctness", "no security vulnerabilities", "follows conventions"],
+        "output": "detailed_report"
+      },
+      "data_validation": {
+        "rules": ["required fields present", "correct data types", "within valid ranges"],
+        "output": "structured_errors"
+      }
+    }
+  },
+
+  "summarization": {
+    "instructions": "Summarize the input content according to specified requirements.",
+    "template": "Summarize the following {content_type}:\n\nSummarization requirements:\n- Length: {length}\n- Focus: {focus_areas}\n- Style: {style}\n\nContent: {input_text}\n\nSummary:",
+    "best_practices": {
+      "temperature": 0.3,
+      "max_tokens": 200,
+      "tips": [
+        "Specify desired length precisely",
+        "Identify key points to preserve",
+        "Define the target audience",
+        "Maintain factual accuracy"
+      ]
+    },
+    "examples": {
+      "executive_summary": {
+        "length": "3-5 sentences",
+        "focus": "key findings and recommendations",
+        "style": "formal, action-oriented"
+      },
+      "technical_abstract": {
+        "length": "150-200 words",
+        "focus": "problem, method, results, implications",
+        "style": "academic, precise"
+      },
+      "news_brief": {
+        "length": "2-3 paragraphs",
+        "focus": "who, what, when, where, why",
+        "style": "journalistic, engaging"
+      }
+    }
+  },
+
+  "meta_prompting": {
+    "instructions": "Generate effective prompts for specified tasks.",
+    "template": "Create a zero-shot prompt for the following task:\n\nTask: {task_description}\nTarget model: {model_type}\nDesired output: {output_requirements}\n\nGenerate a prompt that:\n1. Clearly defines the task\n2. Specifies output format\n3. Includes necessary constraints\n4. Handles edge cases\n\nGenerated prompt:",
+    "best_practices": {
+      "temperature": 0.4,
+      "max_tokens": 400,
+      "tips": [
+        "Include clear task definition",
+        "Specify exact output format",
+        "Add constraints and guidelines",
+        "Consider edge cases"
+      ]
+    }
+  },
+
+  "optimization_patterns": {
+    "consistency_improvements": [
+      "Add step-by-step instructions",
+      "Specify exact output format",
+      "Include explicit constraints",
+      "Define handling of edge cases",
+      "Use consistent terminology",
+      "Provide decision criteria"
+    ],
+    "reliability_techniques": [
+      "Lower temperature for deterministic tasks",
+      "Use structured output formats",
+      "Include validation checks",
+      "Add negative instructions (what NOT to do)",
+      "Provide clear examples of format (not task)",
+      "Break complex tasks into steps"
+    ],
+    "performance_tips": [
+      "Front-load important instructions",
+      "Use clear section headers",
+      "Minimize ambiguous language",
+      "Specify one task per prompt",
+      "Include explicit success criteria",
+      "Test with edge cases"
+    ]
+  },
+
+  "common_pitfalls": {
+    "avoid": [
+      "Vague instructions like 'analyze this'",
+      "Multiple competing objectives",
+      "Assuming context not provided",
+      "Overly complex single prompts",
+      "Inconsistent terminology",
+      "Missing output format specification"
+    ],
+    "fixes": {
+      "vague_instructions": "Add specific criteria and desired outputs",
+      "multiple_objectives": "Split into separate focused prompts",
+      "missing_context": "Include all necessary background information",
+      "too_complex": "Break down into sequential sub-tasks",
+      "inconsistent_terms": "Define terms clearly upfront",
+      "no_format": "Specify exact structure with examples"
+    }
+  }
+}

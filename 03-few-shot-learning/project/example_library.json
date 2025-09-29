@@ -1,0 +1,367 @@
+{
+  "classification": {
+    "sentiment": {
+      "description": "Classify sentiment as Positive, Negative, Neutral, or Mixed",
+      "examples": [
+        {
+          "input": "This product exceeded all my expectations! Absolutely love it!",
+          "output": "Positive",
+          "confidence": "high"
+        },
+        {
+          "input": "Terrible experience. Would not recommend to anyone.",
+          "output": "Negative",
+          "confidence": "high"
+        },
+        {
+          "input": "It's okay. Does what it's supposed to do.",
+          "output": "Neutral",
+          "confidence": "high"
+        },
+        {
+          "input": "Great features but terrible customer service.",
+          "output": "Mixed",
+          "confidence": "high"
+        },
+        {
+          "input": "Not bad, but I've seen better.",
+          "output": "Neutral",
+          "confidence": "medium"
+        },
+        {
+          "input": "Outstanding quality at a reasonable price!",
+          "output": "Positive",
+          "confidence": "high"
+        }
+      ],
+      "format_template": "Text: \"{input}\"\nSentiment: {output}"
+    },
+    "urgency": {
+      "description": "Classify urgency as Critical, High, Medium, or Low",
+      "examples": [
+        {
+          "input": "Production server is down, all services offline",
+          "output": "Critical",
+          "indicators": ["down", "offline", "production"]
+        },
+        {
+          "input": "Security vulnerability detected in authentication system",
+          "output": "Critical",
+          "indicators": ["security", "vulnerability", "authentication"]
+        },
+        {
+          "input": "Performance degradation in search functionality",
+          "output": "Medium",
+          "indicators": ["performance", "degradation"]
+        },
+        {
+          "input": "Typo in documentation",
+          "output": "Low",
+          "indicators": ["typo", "documentation"]
+        },
+        {
+          "input": "Payment processing failing for some users",
+          "output": "High",
+          "indicators": ["payment", "failing"]
+        }
+      ],
+      "format_template": "Issue: \"{input}\"\nUrgency: {output}"
+    },
+    "topic": {
+      "description": "Classify content by topic domain",
+      "examples": [
+        {
+          "input": "API rate limiting prevents server overload",
+          "output": "Technical",
+          "domain": "technology"
+        },
+        {
+          "input": "Q3 revenue exceeded projections by 15%",
+          "output": "Business",
+          "domain": "business"
+        },
+        {
+          "input": "New study shows benefits of meditation",
+          "output": "Health",
+          "domain": "health"
+        },
+        {
+          "input": "Lakers defeat Celtics in overtime thriller",
+          "output": "Sports",
+          "domain": "sports"
+        }
+      ],
+      "format_template": "Text: \"{input}\"\nTopic: {output}"
+    }
+  },
+  "extraction": {
+    "contact_info": {
+      "description": "Extract contact information from text",
+      "examples": [
+        {
+          "input": "Call John Smith at 555-1234 or email john@example.com",
+          "output": "{\"name\": \"John Smith\", \"phone\": \"555-1234\", \"email\": \"john@example.com\"}"
+        },
+        {
+          "input": "Sarah Johnson (sarah.j@company.org) - Mobile: +1-555-987-6543",
+          "output": "{\"name\": \"Sarah Johnson\", \"email\": \"sarah.j@company.org\", \"phone\": \"+1-555-987-6543\"}"
+        },
+        {
+          "input": "Contact our support team at support@service.com",
+          "output": "{\"email\": \"support@service.com\", \"department\": \"support\"}"
+        }
+      ],
+      "format_template": "Text: \"{input}\"\nExtracted: {output}"
+    },
+    "dates_times": {
+      "description": "Extract dates and times from text",
+      "examples": [
+        {
+          "input": "Meeting scheduled for January 15, 2024 at 2:30 PM",
+          "output": "{\"date\": \"January 15, 2024\", \"time\": \"2:30 PM\"}"
+        },
+        {
+          "input": "Project deadline: 03/31/2024",
+          "output": "{\"date\": \"03/31/2024\", \"type\": \"deadline\"}"
+        },
+        {
+          "input": "Conference from May 5-7, 2024",
+          "output": "{\"start_date\": \"May 5, 2024\", \"end_date\": \"May 7, 2024\"}"
+        }
+      ],
+      "format_template": "Text: \"{input}\"\nDates/Times: {output}"
+    },
+    "entities": {
+      "description": "Extract named entities (people, companies, locations)",
+      "examples": [
+        {
+          "input": "Tim Cook, CEO of Apple, announced new products in Cupertino",
+          "output": "{\"people\": [\"Tim Cook\"], \"companies\": [\"Apple\"], \"locations\": [\"Cupertino\"]}"
+        },
+        {
+          "input": "Amazon's Jeff Bezos steps down, Andy Jassy takes over in Seattle",
+          "output": "{\"people\": [\"Jeff Bezos\", \"Andy Jassy\"], \"companies\": [\"Amazon\"], \"locations\": [\"Seattle\"]}"
+        }
+      ],
+      "format_template": "Text: \"{input}\"\nEntities: {output}"
+    }
+  },
+  "transformation": {
+    "formality": {
+      "description": "Transform text formality level",
+      "examples": [
+        {
+          "input": "hey whats up",
+          "output": "Hello, how are you?",
+          "transform": "informal_to_formal"
+        },
+        {
+          "input": "gonna grab lunch?",
+          "output": "Would you like to have lunch?",
+          "transform": "informal_to_formal"
+        },
+        {
+          "input": "I am writing to inquire about your services",
+          "output": "I wanted to ask about your services",
+          "transform": "formal_to_informal"
+        },
+        {
+          "input": "thx for ur help",
+          "output": "Thank you for your assistance",
+          "transform": "informal_to_formal"
+        }
+      ],
+      "format_template": "Original: \"{input}\"\nTransformed: {output}"
+    },
+    "tone": {
+      "description": "Adjust tone of text",
+      "examples": [
+        {
+          "input": "This needs to be fixed immediately",
+          "output": "When you have a chance, could you please look into fixing this?",
+          "transform": "assertive_to_polite"
+        },
+        {
+          "input": "Your proposal is completely wrong",
+          "output": "I have some concerns about the proposal that we should discuss",
+          "transform": "harsh_to_diplomatic"
+        }
+      ],
+      "format_template": "Original: \"{input}\"\nRevised: {output}"
+    }
+  },
+  "generation": {
+    "email_subjects": {
+      "description": "Generate email subject lines",
+      "examples": [
+        {
+          "input": "Meeting rescheduled from Tuesday to Thursday",
+          "output": "Meeting Update: Rescheduled to Thursday",
+          "type": "professional"
+        },
+        {
+          "input": "Quarterly report is ready for review",
+          "output": "Q4 Report Ready for Your Review",
+          "type": "professional"
+        },
+        {
+          "input": "System maintenance this weekend",
+          "output": "Scheduled Maintenance: This Weekend",
+          "type": "notification"
+        }
+      ],
+      "format_template": "Content: \"{input}\"\nSubject: {output}"
+    },
+    "summaries": {
+      "description": "Generate concise summaries",
+      "examples": [
+        {
+          "input": "The meeting discussed Q3 results showing 15% growth, new product launches planned for Q4, expansion into Asian markets, and increased marketing budget.",
+          "output": "Q3 grew 15%; Q4 product launches and Asian expansion planned with increased marketing.",
+          "style": "brief"
+        },
+        {
+          "input": "Research indicates that regular exercise improves cardiovascular health, reduces stress, enhances mood, and increases longevity.",
+          "output": "Exercise benefits: better heart health, less stress, improved mood, longer life.",
+          "style": "brief"
+        }
+      ],
+      "format_template": "Text: \"{input}\"\nSummary: {output}"
+    }
+  },
+  "code_related": {
+    "code_review": {
+      "description": "Review code for issues and improvements",
+      "examples": [
+        {
+          "input": "def divide(a, b): return a / b",
+          "output": "Add error handling for division by zero",
+          "language": "python",
+          "issue_type": "error_handling"
+        },
+        {
+          "input": "password = '12345'",
+          "output": "Never hardcode passwords. Use environment variables or secure storage",
+          "language": "any",
+          "issue_type": "security"
+        },
+        {
+          "input": "SELECT * FROM users",
+          "output": "Specify needed columns instead of using SELECT * for better performance",
+          "language": "sql",
+          "issue_type": "performance"
+        }
+      ],
+      "format_template": "Code: {input}\nReview: {output}"
+    },
+    "documentation": {
+      "description": "Generate code documentation",
+      "examples": [
+        {
+          "input": "def calculate_discount(price, percentage)",
+          "output": "\"\"\"Calculate discount amount for given price and percentage.\n\nArgs:\n    price: Original price\n    percentage: Discount percentage (0-100)\n\nReturns:\n    Discounted price\"\"\"",
+          "language": "python"
+        }
+      ],
+      "format_template": "Code: {input}\nDocumentation: {output}"
+    }
+  },
+  "analysis": {
+    "pros_cons": {
+      "description": "Analyze pros and cons",
+      "examples": [
+        {
+          "input": "Working from home",
+          "output": "Pros: No commute, flexible schedule, comfortable environment\nCons: Less social interaction, work-life boundary blur, potential distractions"
+        },
+        {
+          "input": "Cloud computing",
+          "output": "Pros: Scalability, cost-effective, accessibility\nCons: Internet dependency, security concerns, less control"
+        }
+      ],
+      "format_template": "Topic: \"{input}\"\n{output}"
+    },
+    "risk_assessment": {
+      "description": "Assess risks and provide mitigation",
+      "examples": [
+        {
+          "input": "Deploying on Friday afternoon",
+          "output": "Risk: High - Limited support availability if issues arise\nMitigation: Deploy early in the week or have on-call coverage",
+          "risk_level": "high"
+        },
+        {
+          "input": "Using new framework in production",
+          "output": "Risk: Medium - Team unfamiliarity may cause delays\nMitigation: Provide training and start with non-critical features",
+          "risk_level": "medium"
+        }
+      ],
+      "format_template": "Action: \"{input}\"\n{output}"
+    }
+  },
+  "specialized": {
+    "sql_generation": {
+      "description": "Generate SQL queries from natural language",
+      "examples": [
+        {
+          "input": "Find all users who registered last month",
+          "output": "SELECT * FROM users WHERE DATE(registration_date) >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)",
+          "safe": true
+        },
+        {
+          "input": "Get top 10 products by sales",
+          "output": "SELECT product_name, SUM(sales) as total_sales FROM products GROUP BY product_name ORDER BY total_sales DESC LIMIT 10",
+          "safe": true
+        }
+      ],
+      "format_template": "Request: \"{input}\"\nSQL: {output}"
+    },
+    "regex_patterns": {
+      "description": "Generate regex patterns for matching",
+      "examples": [
+        {
+          "input": "Match email addresses",
+          "output": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+          "test_cases": ["user@example.com", "invalid.email"]
+        },
+        {
+          "input": "Match US phone numbers",
+          "output": "^\\(?([0-9]{3})\\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$",
+          "test_cases": ["(555) 123-4567", "555-123-4567"]
+        }
+      ],
+      "format_template": "Pattern for: \"{input}\"\nRegex: {output}"
+    }
+  },
+  "meta": {
+    "example_quality_criteria": {
+      "diversity": "Examples should cover different cases and edge scenarios",
+      "clarity": "Each example should be clear and unambiguous",
+      "consistency": "Format should be consistent across all examples",
+      "relevance": "Examples should be relevant to the task domain",
+      "completeness": "Cover both typical cases and edge cases"
+    },
+    "selection_strategies": {
+      "similarity": "Select examples most similar to the input",
+      "diversity": "Select diverse examples to cover different patterns",
+      "stratified": "Ensure balanced representation of all categories",
+      "adaptive": "Adjust selection based on input characteristics",
+      "progressive": "Order examples from simple to complex"
+    },
+    "optimization_tips": {
+      "shot_count": {
+        "simple_tasks": 1,
+        "moderate_tasks": 3,
+        "complex_tasks": 5,
+        "maximum_recommended": 7
+      },
+      "token_efficiency": "Balance example quality with token usage",
+      "format_consistency": "Maintain exact same format across all examples",
+      "temperature_settings": {
+        "classification": 0.1,
+        "extraction": 0.0,
+        "generation": 0.5,
+        "transformation": 0.3
+      }
+    }
+  }
+}

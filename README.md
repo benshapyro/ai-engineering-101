@@ -120,7 +120,8 @@ prompting-101/
 │   ├── README.md              # Module guide
 │   ├── examples/              # Code examples
 │   ├── exercises/             # Practice problems
-│   └── solutions/             # Exercise solutions
+│   ├── solutions/             # Exercise solutions
+│   └── project/               # Module project
 └── [02-14 modules...]          # Additional modules
 ```
 
