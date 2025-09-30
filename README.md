@@ -17,7 +17,7 @@ By completing this curriculum, you will:
 - Understand context window management and optimization
 - Build production-ready AI applications using RAG
 - Implement advanced techniques like function calling and structured outputs
-- Work effectively with both OpenAI and Anthropic models
+- Work effectively with the latest models: GPT-5, Claude Sonnet 4.5
 - Design and deploy AI agents and workflows
 
 ## 📚 Curriculum Overview
@@ -50,7 +50,8 @@ The curriculum is organized into 14 progressive modules, each building upon the 
 
 ### Prerequisites
 - Python 3.8+ installed
-- OpenAI API key (get one at https://platform.openai.com)
+- OpenAI API key (get one at https://platform.openai.com) - for GPT-5 models
+- Anthropic API key (optional, for Claude models)
 - Basic programming knowledge
 - Familiarity with JSON and APIs
 
@@ -104,8 +105,8 @@ cp .env.example .env
 ## 🛠️ Tools and Technologies
 
 ### Primary Tools
-- **OpenAI GPT-4**: Primary model for exercises
-- **Anthropic Claude**: Alternative model examples
+- **OpenAI GPT-5**: Latest flagship model (also: GPT-5-mini, GPT-5-nano, GPT-5-codex)
+- **Anthropic Claude Sonnet 4.5**: High-performance model with excellent cost/quality ratio
 - **LangChain**: For complex workflows and RAG
 - **Python 3.8+**: Primary programming language
 - **FastAPI**: For production applications
