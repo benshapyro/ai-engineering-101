@@ -439,7 +439,7 @@ class QueryProcessor:
         # Use LLM for expansion
         try:
             response = openai_client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model="gpt-5-mini",
                 messages=[
                     {
                         "role": "system",
@@ -519,7 +519,7 @@ class Reranker:
             # Use LLM for relevance scoring
             try:
                 response = openai_client.chat.completions.create(
-                    model="gpt-3.5-turbo",
+                    model="gpt-5-mini",
                     messages=[
                         {
                             "role": "system",
@@ -689,7 +689,7 @@ class ResponseGenerator:
     ) -> Dict[str, Any]:
         """Generate standard response."""
         response = openai_client.chat.completions.create(
-            model="gpt-4-turbo-preview",
+            model="gpt-5",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": f"Context:\n{context}\n\nQuestion: {query_text}"}
@@ -707,7 +707,7 @@ class ResponseGenerator:
         return {
             "answer": answer,
             "citations": list(set(citations)),
-            "model": "gpt-4-turbo-preview",
+            "model": "gpt-5",
             "tokens": response.usage.total_tokens if hasattr(response, 'usage') else 0
         }
 
@@ -719,7 +719,7 @@ class ResponseGenerator:
     ) -> Dict[str, Any]:
         """Generate streaming response."""
         stream = openai_client.chat.completions.create(
-            model="gpt-4-turbo-preview",
+            model="gpt-5",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": f"Context:\n{context}\n\nQuestion: {query_text}"}
@@ -732,7 +732,7 @@ class ResponseGenerator:
         # Return generator
         return {
             "stream": stream,
-            "model": "gpt-4-turbo-preview"
+            "model": "gpt-5"
         }
 
 # ================================

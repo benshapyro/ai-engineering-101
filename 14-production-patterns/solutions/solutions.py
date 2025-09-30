@@ -266,7 +266,7 @@ class MonitoringDashboard:
         self.anomaly_baseline = {}
         self.cost_tracker = {
             "gpt-4": {"rate": 0.03, "usage": 0},
-            "gpt-3.5-turbo": {"rate": 0.001, "usage": 0}
+            "gpt-5-mini": {"rate": 0.001, "usage": 0}
         }
 
     def record_metric(self, name: str, value: float,
@@ -996,7 +996,7 @@ class CostOptimizer:
     def __init__(self):
         self.model_costs = {
             "gpt-4": {"input": 0.03, "output": 0.06},
-            "gpt-3.5-turbo": {"input": 0.001, "output": 0.002},
+            "gpt-5-mini": {"input": 0.001, "output": 0.002},
             "claude-3-opus": {"input": 0.015, "output": 0.075},
             "claude-3-sonnet": {"input": 0.003, "output": 0.015}
         }
@@ -1013,7 +1013,7 @@ class CostOptimizer:
         self.budgets = {}
         self.model_performance = {
             "gpt-4": {"accuracy": 0.95, "speed": 2.0},
-            "gpt-3.5-turbo": {"accuracy": 0.85, "speed": 0.5},
+            "gpt-5-mini": {"accuracy": 0.85, "speed": 0.5},
             "claude-3-opus": {"accuracy": 0.93, "speed": 1.5}
         }
 
@@ -1074,11 +1074,11 @@ class CostOptimizer:
         # Suggest model based on complexity
         if is_simple and model == "gpt-4":
             suggestions["optimizations"].append("Use gpt-3.5-turbo for simple queries")
-            suggestions["recommended_model"] = "gpt-3.5-turbo"
+            suggestions["recommended_model"] = "gpt-5-mini"
 
             # Calculate potential savings
             gpt4_cost = self.model_costs["gpt-4"]["input"] * prompt_length / 1000
-            gpt35_cost = self.model_costs["gpt-3.5-turbo"]["input"] * prompt_length / 1000
+            gpt35_cost = self.model_costs["gpt-5-mini"]["input"] * prompt_length / 1000
             suggestions["estimated_savings"] = gpt4_cost - gpt35_cost
 
         # Suggest prompt optimization
@@ -1182,7 +1182,7 @@ optimizer.budgets["user_2"] = 5.0
 
 # Simulate usage
 users = ["user_1", "user_2", "user_3"]
-models = ["gpt-4", "gpt-3.5-turbo", "claude-3-opus"]
+models = ["gpt-4", "gpt-5-mini", "claude-3-opus"]
 
 for _ in range(20):
     user = random.choice(users)

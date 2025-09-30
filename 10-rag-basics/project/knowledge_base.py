@@ -608,7 +608,7 @@ class QueryEngine:
     async def _expand_query(self, query_text: str) -> List[str]:
         """Expand query with variations."""
         response = openai_client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",
@@ -637,7 +637,7 @@ class QueryEngine:
         # Score each result
         for result in results:
             response = openai_client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model="gpt-5-mini",
                 messages=[
                     {
                         "role": "user",
@@ -672,7 +672,7 @@ class QueryEngine:
 
         # Generate answer
         response = openai_client.chat.completions.create(
-            model="gpt-4-turbo-preview",
+            model="gpt-5",
             messages=[
                 {
                     "role": "system",

@@ -68,7 +68,7 @@ def example_2_model_specific_counting():
     """
 
     models = [
-        "gpt-3.5-turbo",
+        "gpt-5-mini",
         "gpt-4",
         "text-davinci-003"
     ]
@@ -189,7 +189,7 @@ def example_4_cost_calculation():
             self.pricing = {
                 "gpt-4": {"input": 0.03, "output": 0.06},
                 "gpt-4-32k": {"input": 0.06, "output": 0.12},
-                "gpt-3.5-turbo": {"input": 0.0015, "output": 0.002},
+                "gpt-5-mini": {"input": 0.0015, "output": 0.002},
                 "gpt-3.5-turbo-16k": {"input": 0.003, "output": 0.004}
             }
 
@@ -237,7 +237,7 @@ def example_4_cost_calculation():
 
     print("COST ANALYSIS:\n")
 
-    for model in ["gpt-3.5-turbo", "gpt-4"]:
+    for model in ["gpt-5-mini", "gpt-4"]:
         result = calculator.estimate_conversation(model, conversation)
         if result:
             print(f"{model}:")
@@ -253,7 +253,7 @@ def example_4_cost_calculation():
     days_per_month = 30
 
     print("MONTHLY PROJECTION:")
-    for model in ["gpt-3.5-turbo", "gpt-4"]:
+    for model in ["gpt-5-mini", "gpt-4"]:
         result = calculator.estimate_conversation(model, conversation)
         if result:
             monthly_cost = result['total_cost'] * conversations_per_day * days_per_month

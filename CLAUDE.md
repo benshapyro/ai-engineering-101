@@ -54,9 +54,9 @@ Each module (01-14) follows a consistent pattern:
 ## Development Patterns
 
 ### API Configuration
-All modules use environment variables from `.env` for API keys and model settings. Default models:
-- OpenAI: `gpt-4-turbo-preview`
-- Anthropic: `claude-3-opus-20240229`
+All modules use environment variables from `.env` for API keys and model settings. Default models (as of September 2025):
+- OpenAI: `gpt-5` (also available: `gpt-5-mini`, `gpt-5-nano`, `gpt-5-codex`)
+- Anthropic: `claude-sonnet-4-5-20250929` (also available: `claude-opus-4-1-20250805`, `claude-3-5-haiku-20241022`)
 
 ### Common Utilities Location
 Shared code lives in `shared/` directory:

@@ -711,7 +711,7 @@ class QueryExpander:
         """
         # Use LLM to generate synonyms
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",
@@ -755,7 +755,7 @@ class QueryExpander:
             prompt += f"\nContext: {context}"
 
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",
@@ -835,7 +835,7 @@ class QueryExpander:
             Query variations
         """
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",
@@ -974,7 +974,7 @@ class RAGEvaluator:
         scores = []
         for doc in documents:
             response = client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model="gpt-5-mini",
                 messages=[
                     {
                         "role": "system",
@@ -1034,7 +1034,7 @@ class RAGEvaluator:
             """
 
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "user",
@@ -1072,7 +1072,7 @@ class RAGEvaluator:
         sources = "\n\n".join(source_documents)
 
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",
@@ -1455,7 +1455,7 @@ class ProductionRAGService:
             ])
 
             response = client.chat.completions.create(
-                model=self.config.get("llm_model", "gpt-4-turbo-preview"),
+                model=self.config.get("llm_model", "gpt-5"),
                 messages=[
                     {
                         "role": "system",
@@ -1565,7 +1565,7 @@ async def test_production_service():
     """Test the production RAG service."""
     config = {
         "embedding_model": "text-embedding-3-small",
-        "llm_model": "gpt-4-turbo-preview",
+        "llm_model": "gpt-5",
         "vector_store": "in_memory",
         "cache_ttl": 3600,
         "max_documents": 10000,

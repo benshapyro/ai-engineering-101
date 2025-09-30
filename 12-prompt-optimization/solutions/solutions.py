@@ -39,7 +39,7 @@ def analyze_token_usage(prompt: str, quality_requirement: float = 0.8) -> Dict:
         Dictionary with token counts, costs, and recommendation
     """
     models = {
-        "gpt-3.5-turbo": {
+        "gpt-5-mini": {
             "encoder": "cl100k_base",
             "max_tokens": 4096,
             "input_cost": 0.0005,
@@ -53,7 +53,7 @@ def analyze_token_usage(prompt: str, quality_requirement: float = 0.8) -> Dict:
             "output_cost": 0.06,
             "quality": 0.95
         },
-        "gpt-4-turbo-preview": {
+        "gpt-5": {
             "encoder": "cl100k_base",
             "max_tokens": 128000,
             "input_cost": 0.01,
@@ -383,8 +383,8 @@ class CostRouter:
         self.spent_today = 0.0
         self.routing_log = []
         self.models = {
-            "gpt-3.5-turbo": {"cost": 0.002, "quality": 0.7},
-            "gpt-4-turbo-preview": {"cost": 0.01, "quality": 0.93},
+            "gpt-5-mini": {"cost": 0.002, "quality": 0.7},
+            "gpt-5": {"cost": 0.01, "quality": 0.93},
             "gpt-4": {"cost": 0.06, "quality": 0.95}
         }
 
@@ -403,8 +403,8 @@ class CostRouter:
 
         # Map complexity to model
         complexity_model_map = {
-            "simple": "gpt-3.5-turbo",
-            "medium": "gpt-4-turbo-preview",
+            "simple": "gpt-5-mini",
+            "medium": "gpt-5",
             "complex": "gpt-4"
         }
 
@@ -414,7 +414,7 @@ class CostRouter:
         # Check cost constraints
         if max_cost and estimated_cost > max_cost:
             # Downgrade model
-            for model in ["gpt-3.5-turbo", "gpt-4-turbo-preview", "gpt-4"]:
+            for model in ["gpt-5-mini", "gpt-5", "gpt-4"]:
                 if self.models[model]["cost"] <= max_cost:
                     selected_model = model
                     estimated_cost = self.models[model]["cost"]

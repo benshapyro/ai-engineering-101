@@ -35,7 +35,7 @@ def exercise_1_token_calculator():
             # TODO: Initialize pricing for different models
             self.pricing = {
                 "gpt-4": {"input": 0, "output": 0},  # TODO: Add real prices
-                "gpt-3.5-turbo": {"input": 0, "output": 0}
+                "gpt-5-mini": {"input": 0, "output": 0}
             }
             self.usage_history = []
 

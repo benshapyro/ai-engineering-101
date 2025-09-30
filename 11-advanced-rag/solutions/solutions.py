@@ -392,7 +392,7 @@ class QueryUnderstandingPipeline:
         """
         # Use LLM for entity extraction
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",
@@ -438,7 +438,7 @@ class QueryUnderstandingPipeline:
         if method in ["synonyms", "all"]:
             # Generate synonyms
             response = client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model="gpt-5-mini",
                 messages=[
                     {
                         "role": "system",
@@ -457,7 +457,7 @@ class QueryUnderstandingPipeline:
         if method in ["related", "all"]:
             # Generate related queries
             response = client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model="gpt-5-mini",
                 messages=[
                     {
                         "role": "system",
@@ -493,7 +493,7 @@ class QueryUnderstandingPipeline:
 
         # Use LLM for complex decomposition
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",
@@ -532,7 +532,7 @@ class QueryUnderstandingPipeline:
 
             # Use LLM to resolve
             response = client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model="gpt-5-mini",
                 messages=[
                     {
                         "role": "system",
@@ -660,7 +660,7 @@ class CustomReranker:
 
         # Use LLM for scoring
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",
@@ -1189,7 +1189,7 @@ class ProductionRAGPipeline:
 
         # Generate response
         response = client.chat.completions.create(
-            model="gpt-4-turbo-preview",
+            model="gpt-5",
             messages=[
                 {
                     "role": "system",
@@ -1292,7 +1292,7 @@ class ProductionRAGPipeline:
         # Test LLM availability
         try:
             response = client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model="gpt-5-mini",
                 messages=[{"role": "user", "content": "test"}],
                 max_tokens=1
             )
@@ -1496,7 +1496,7 @@ class RAGEvaluator:
         sources_text = "\n".join(source_documents)
 
         response_llm = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",
@@ -1534,7 +1534,7 @@ class RAGEvaluator:
         """
         # Use LLM to evaluate relevance
         response_llm = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",

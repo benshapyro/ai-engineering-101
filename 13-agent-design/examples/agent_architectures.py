@@ -40,7 +40,7 @@ print("=" * 50)
 class ReActAgent:
     """Agent that interleaves reasoning and acting."""
 
-    def __init__(self, model: str = "gpt-4-turbo-preview"):
+    def __init__(self, model: str = "gpt-5"):
         self.model = model
         self.max_steps = 10
         self.history = []
@@ -185,7 +185,7 @@ class ThoughtNode:
 class TreeOfThoughtsAgent:
     """Agent that explores multiple reasoning paths."""
 
-    def __init__(self, model: str = "gpt-4-turbo-preview"):
+    def __init__(self, model: str = "gpt-5"):
         self.model = model
         self.max_depth = 3
         self.branches_per_node = 3

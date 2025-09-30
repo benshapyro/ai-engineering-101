@@ -78,7 +78,7 @@ print("=" * 50)
 class ABTestFramework:
     """Framework for A/B testing prompts."""
 
-    def __init__(self, model: str = "gpt-4-turbo-preview"):
+    def __init__(self, model: str = "gpt-5"):
         self.model = model
         self.encoder = tiktoken.encoding_for_model(model)
         self.results_a: List[TestResult] = []
@@ -263,7 +263,7 @@ print("=" * 50)
 class AutomatedEvaluator:
     """Automated evaluation system for prompts."""
 
-    def __init__(self, model: str = "gpt-4-turbo-preview"):
+    def __init__(self, model: str = "gpt-5"):
         self.model = model
         self.evaluation_criteria = {
             "accuracy": "How accurate and factually correct is the response?",
@@ -476,7 +476,7 @@ class PerformanceBenchmark:
     """Comprehensive performance benchmarking system."""
 
     def __init__(self):
-        self.models = ["gpt-3.5-turbo", "gpt-4", "gpt-4-turbo-preview"]
+        self.models = ["gpt-5-mini", "gpt-4", "gpt-5"]
         self.benchmark_results = []
 
     async def benchmark_prompt(self,
@@ -527,7 +527,7 @@ class PerformanceBenchmark:
             tokens = response.usage.total_tokens
 
             # Calculate approximate cost
-            cost_per_1k = {"gpt-3.5-turbo": 0.002, "gpt-4": 0.03, "gpt-4-turbo-preview": 0.01}
+            cost_per_1k = {"gpt-5-mini": 0.002, "gpt-4": 0.03, "gpt-5": 0.01}
             cost = (tokens / 1000) * cost_per_1k.get(model, 0.01)
 
             # Simple quality score (length and structure)
@@ -713,9 +713,9 @@ class MultiModelComparator:
 
     def __init__(self):
         self.models = {
-            "gpt-3.5-turbo": {"cost_per_1k": 0.002, "speed": "fast", "quality": "good"},
+            "gpt-5-mini": {"cost_per_1k": 0.002, "speed": "fast", "quality": "good"},
             "gpt-4": {"cost_per_1k": 0.03, "speed": "slow", "quality": "excellent"},
-            "gpt-4-turbo-preview": {"cost_per_1k": 0.01, "speed": "medium", "quality": "excellent"}
+            "gpt-5": {"cost_per_1k": 0.01, "speed": "medium", "quality": "excellent"}
         }
         self.comparison_results = []
 
@@ -769,9 +769,9 @@ class MultiModelComparator:
 
         # Mock scoring based on model characteristics
         base_scores = {
-            "gpt-3.5-turbo": {"accuracy": 0.8, "creativity": 0.7, "consistency": 0.85},
+            "gpt-5-mini": {"accuracy": 0.8, "creativity": 0.7, "consistency": 0.85},
             "gpt-4": {"accuracy": 0.95, "creativity": 0.9, "consistency": 0.95},
-            "gpt-4-turbo-preview": {"accuracy": 0.93, "creativity": 0.88, "consistency": 0.92}
+            "gpt-5": {"accuracy": 0.93, "creativity": 0.88, "consistency": 0.92}
         }
 
         base_score = base_scores.get(model, {}).get(criterion, 0.5)
@@ -883,7 +883,7 @@ class ProductionPerformanceTester:
 
             try:
                 response = openai.ChatCompletion.create(
-                    model="gpt-4-turbo-preview",
+                    model="gpt-5",
                     messages=[{"role": "user", "content": prompt.format(input=test_input)}],
                     timeout=10
                 )
@@ -1080,7 +1080,7 @@ class ProductionPerformanceTester:
 
         try:
             response = openai.ChatCompletion.create(
-                model="gpt-4-turbo-preview",
+                model="gpt-5",
                 messages=[{"role": "user", "content": prompt.format(input=test_input)}],
                 temperature=0
             )

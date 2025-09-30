@@ -31,12 +31,12 @@ class LLMClient:
             self.client = openai.OpenAI(
                 api_key=os.getenv("OPENAI_API_KEY")
             )
-            self.default_model = os.getenv("OPENAI_MODEL", "gpt-4-turbo-preview")
+            self.default_model = os.getenv("OPENAI_MODEL", "gpt-5")
         elif self.provider == "anthropic":
             self.client = Anthropic(
                 api_key=os.getenv("ANTHROPIC_API_KEY")
             )
-            self.default_model = os.getenv("ANTHROPIC_MODEL", "claude-3-opus-20240229")
+            self.default_model = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-4-5-20250929")
         else:
             raise ValueError(f"Unknown provider: {provider}")
 
@@ -169,7 +169,7 @@ def count_tokens(text: str, model: str = "gpt-4") -> int:
 def estimate_cost(
     input_tokens: int,
     output_tokens: int,
-    model: str = "gpt-4-turbo-preview"
+    model: str = "gpt-5"
 ) -> Dict[str, float]:
     """
     Estimate API cost for a completion.
@@ -182,14 +182,15 @@ def estimate_cost(
     Returns:
         Dictionary with cost breakdown
     """
-    # Pricing as of 2024 (per 1M tokens)
+    # Pricing as of September 2025 (per 1M tokens)
     pricing = {
-        "gpt-4-turbo-preview": {"input": 10.00, "output": 30.00},
-        "gpt-4": {"input": 30.00, "output": 60.00},
-        "gpt-3.5-turbo": {"input": 0.50, "output": 1.50},
-        "claude-3-opus-20240229": {"input": 15.00, "output": 75.00},
-        "claude-3-sonnet-20240229": {"input": 3.00, "output": 15.00},
-        "claude-3-haiku-20240307": {"input": 0.25, "output": 1.25},
+        "gpt-5": {"input": 5.00, "output": 15.00},
+        "gpt-5-mini": {"input": 0.30, "output": 1.20},
+        "gpt-5-nano": {"input": 0.10, "output": 0.40},
+        "gpt-5-codex": {"input": 6.00, "output": 18.00},
+        "claude-sonnet-4-5-20250929": {"input": 3.00, "output": 15.00},
+        "claude-opus-4-1-20250805": {"input": 15.00, "output": 75.00},
+        "claude-3-5-haiku-20241022": {"input": 0.80, "output": 4.00},
     }
 
     if model not in pricing:
@@ -419,5 +420,5 @@ if __name__ == "__main__":
     print(f"Token count: {tokens}")
 
     # Test cost estimation
-    cost = estimate_cost(100, 50, "gpt-4-turbo-preview")
+    cost = estimate_cost(100, 50, "gpt-5")
     print(f"Estimated cost: ${cost['total_cost']}")

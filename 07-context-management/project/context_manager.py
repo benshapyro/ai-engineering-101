@@ -95,7 +95,7 @@ class ContextManager:
         # Pricing (per 1K tokens)
         self.pricing = {
             "gpt-4": {"input": 0.03, "output": 0.06},
-            "gpt-3.5-turbo": {"input": 0.0015, "output": 0.002}
+            "gpt-5-mini": {"input": 0.0015, "output": 0.002}
         }
 
         # Initialize database

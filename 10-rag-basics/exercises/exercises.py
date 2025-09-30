@@ -742,7 +742,7 @@ class ProductionRAGService:
 # Configuration for production service
 config = {
     "embedding_model": "text-embedding-3-small",
-    "llm_model": "gpt-4-turbo-preview",
+    "llm_model": "gpt-5",
     "vector_store": "faiss",
     "cache_ttl": 3600,
     "max_documents": 10000,

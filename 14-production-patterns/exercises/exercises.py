@@ -536,7 +536,7 @@ class CostOptimizer:
     def __init__(self):
         self.model_costs = {
             "gpt-4": {"input": 0.03, "output": 0.06},
-            "gpt-3.5-turbo": {"input": 0.001, "output": 0.002},
+            "gpt-5-mini": {"input": 0.001, "output": 0.002},
             "claude-3-opus": {"input": 0.015, "output": 0.075}
         }
         self.usage_data = defaultdict(lambda: {"tokens": 0, "cost": 0})

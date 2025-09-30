@@ -46,38 +46,38 @@ class ModelConfig:
     speed: str  # fast, medium, slow
 
 
-# Model configurations with pricing
+# Model configurations with pricing (September 2025)
 MODELS = {
-    "gpt-3.5-turbo": ModelConfig(
-        name="gpt-3.5-turbo",
-        input_cost_per_1k=0.0005,
-        output_cost_per_1k=0.0015,
+    "gpt-5-nano": ModelConfig(
+        name="gpt-5-nano",
+        input_cost_per_1k=0.0001,
+        output_cost_per_1k=0.0004,
         max_tokens=4096,
-        quality_score=0.7,
+        quality_score=0.75,
         speed="fast"
     ),
-    "gpt-3.5-turbo-16k": ModelConfig(
-        name="gpt-3.5-turbo-16k",
-        input_cost_per_1k=0.003,
-        output_cost_per_1k=0.004,
+    "gpt-5-mini": ModelConfig(
+        name="gpt-5-mini",
+        input_cost_per_1k=0.0003,
+        output_cost_per_1k=0.0012,
         max_tokens=16384,
-        quality_score=0.7,
+        quality_score=0.85,
         speed="fast"
     ),
-    "gpt-4": ModelConfig(
-        name="gpt-4",
-        input_cost_per_1k=0.03,
-        output_cost_per_1k=0.06,
-        max_tokens=8192,
-        quality_score=0.95,
-        speed="slow"
-    ),
-    "gpt-4-turbo-preview": ModelConfig(
-        name="gpt-4-turbo-preview",
-        input_cost_per_1k=0.01,
-        output_cost_per_1k=0.03,
+    "gpt-5": ModelConfig(
+        name="gpt-5",
+        input_cost_per_1k=0.005,
+        output_cost_per_1k=0.015,
         max_tokens=128000,
-        quality_score=0.93,
+        quality_score=0.96,
+        speed="medium"
+    ),
+    "gpt-5-codex": ModelConfig(
+        name="gpt-5-codex",
+        input_cost_per_1k=0.006,
+        output_cost_per_1k=0.018,
+        max_tokens=128000,
+        quality_score=0.97,
         speed="medium"
     )
 }
@@ -143,7 +143,7 @@ class ModelSelector:
 
         if not candidates:
             # Fallback to cheapest model that fits
-            return self.models["gpt-3.5-turbo"]
+            return self.models["gpt-5-nano"]
 
         # Sort by cost-effectiveness (quality per dollar)
         candidates.sort(key=lambda x: x["quality"] / x["estimated_cost"], reverse=True)
@@ -175,9 +175,9 @@ class ModelSelector:
 
         # Map complexity to model
         model_mapping = {
-            "simple": "gpt-3.5-turbo",
-            "medium": "gpt-4-turbo-preview",
-            "complex": "gpt-4"
+            "simple": "gpt-5-mini",
+            "medium": "gpt-5",
+            "complex": "gpt-5-codex"
         }
 
         selected_model = self.models[model_mapping[complexity]]
@@ -446,10 +446,10 @@ class BatchProcessor:
 
         for request in batch:
             tokens = len(encoder.encode(request["prompt"]))
-            # Assume GPT-3.5 for calculation
-            cost = (tokens / 1000) * MODELS["gpt-3.5-turbo"].input_cost_per_1k
+            # Assume GPT-5-mini for calculation
+            cost = (tokens / 1000) * MODELS["gpt-5-mini"].input_cost_per_1k
             # Add estimated output cost
-            cost += (tokens / 1000) * MODELS["gpt-3.5-turbo"].output_cost_per_1k
+            cost += (tokens / 1000) * MODELS["gpt-5-mini"].output_cost_per_1k
             total_cost += cost
 
         return total_cost
@@ -459,9 +459,9 @@ class BatchProcessor:
         encoder = tiktoken.get_encoding("cl100k_base")
         tokens = len(encoder.encode(combined_prompt))
         # Single API call cost
-        cost = (tokens / 1000) * MODELS["gpt-3.5-turbo"].input_cost_per_1k
+        cost = (tokens / 1000) * MODELS["gpt-5-mini"].input_cost_per_1k
         # Estimated output (slightly more than individual due to format)
-        cost += (tokens * 1.2 / 1000) * MODELS["gpt-3.5-turbo"].output_cost_per_1k
+        cost += (tokens * 1.2 / 1000) * MODELS["gpt-5-mini"].output_cost_per_1k
         return cost
 
     async def _process_combined_prompt(self, prompt: str) -> List[str]:
@@ -747,8 +747,8 @@ class ResponseCompressor:
 
     def _calculate_cost_savings(self, tokens_saved: int) -> float:
         """Calculate cost savings from compression."""
-        # Assume GPT-4 pricing for context
-        return (tokens_saved / 1000) * MODELS["gpt-4-turbo-preview"].input_cost_per_1k
+        # Assume GPT-5 pricing for context
+        return (tokens_saved / 1000) * MODELS["gpt-5"].input_cost_per_1k
 
 
 # Example 6: Tiered Processing Strategies
@@ -763,17 +763,17 @@ class TieredProcessor:
     def __init__(self):
         self.tiers = {
             "screening": {
-                "model": "gpt-3.5-turbo",
+                "model": "gpt-5-mini",
                 "purpose": "Initial filtering and classification",
                 "max_cost": 0.01
             },
             "processing": {
-                "model": "gpt-4-turbo-preview",
+                "model": "gpt-5",
                 "purpose": "Main processing and analysis",
                 "max_cost": 0.05
             },
             "refinement": {
-                "model": "gpt-4",
+                "model": "gpt-5-codex",
                 "purpose": "Final quality check and refinement",
                 "max_cost": 0.10
             }
@@ -970,7 +970,7 @@ class CostOptimizationSystem:
             return "Daily budget exceeded", {"error": "budget_exceeded"}
 
         # 1. Check cache first
-        cached = await self.cache.find_similar_cached(prompt, "gpt-4-turbo-preview")
+        cached = await self.cache.find_similar_cached(prompt, "gpt-5")
         if cached:
             optimization_report["optimizations"].append("cache_hit")
             self.daily_stats["cache_hits"] += 1
@@ -1041,10 +1041,10 @@ class CostOptimizationSystem:
 
     def _calculate_base_cost(self, prompt: str) -> float:
         """Calculate baseline cost without optimizations."""
-        encoder = tiktoken.encoding_for_model("gpt-4")
+        encoder = tiktoken.get_encoding("cl100k_base")
         tokens = len(encoder.encode(prompt))
-        input_cost = (tokens / 1000) * MODELS["gpt-4"].input_cost_per_1k
-        output_cost = (tokens / 1000) * MODELS["gpt-4"].output_cost_per_1k
+        input_cost = (tokens / 1000) * MODELS["gpt-5"].input_cost_per_1k
+        output_cost = (tokens / 1000) * MODELS["gpt-5"].output_cost_per_1k
         return input_cost + output_cost
 
     def get_optimization_report(self) -> str:

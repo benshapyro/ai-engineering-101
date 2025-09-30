@@ -32,7 +32,7 @@ def solution_1_token_calculator():
             self.pricing = {
                 "gpt-4": {"input": 0.03, "output": 0.06},
                 "gpt-4-32k": {"input": 0.06, "output": 0.12},
-                "gpt-3.5-turbo": {"input": 0.0015, "output": 0.002},
+                "gpt-5-mini": {"input": 0.0015, "output": 0.002},
                 "gpt-3.5-turbo-16k": {"input": 0.003, "output": 0.004}
             }
             self.usage_history = []
@@ -128,7 +128,7 @@ def solution_1_token_calculator():
             report += "\nOPTIMIZATION RECOMMENDATIONS:\n"
 
             # Check if using expensive models for simple tasks
-            if "gpt-4" in model_usage and "gpt-3.5-turbo" not in model_usage:
+            if "gpt-4" in model_usage and "gpt-5-mini" not in model_usage:
                 report += "• Consider using gpt-3.5-turbo for simpler tasks\n"
 
             # Check average request size
@@ -166,7 +166,7 @@ def solution_1_token_calculator():
     for i, text in enumerate(test_texts, 1):
         print(f"Text {i}: '{text[:30]}...'")
 
-        for model in ["gpt-3.5-turbo", "gpt-4"]:
+        for model in ["gpt-5-mini", "gpt-4"]:
             tokens = calculator.calculate_tokens(text, model)
             estimate = calculator.estimate_cost(text, expected_output_length=50, model=model)
 

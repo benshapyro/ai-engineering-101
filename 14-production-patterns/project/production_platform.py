@@ -37,7 +37,7 @@ logger = logging.getLogger(__name__)
 class RequestModel(BaseModel):
     """LLM request model."""
     prompt: str = Field(..., min_length=1, max_length=10000)
-    model: str = Field(default="gpt-3.5-turbo")
+    model: str = Field(default="gpt-5-mini")
     max_tokens: int = Field(default=500, ge=1, le=4000)
     temperature: float = Field(default=0.7, ge=0.0, le=2.0)
     user_id: Optional[str] = None
@@ -197,7 +197,7 @@ class CostTracker:
 
     MODEL_COSTS = {
         "gpt-4": 0.03,
-        "gpt-3.5-turbo": 0.001,
+        "gpt-5-mini": 0.001,
         "claude-3": 0.015
     }
 
@@ -425,7 +425,7 @@ class ProductionLLMPlatform:
         """Generate fallback response."""
         # Try simpler model
         if request.model == "gpt-4":
-            request.model = "gpt-3.5-turbo"
+            request.model = "gpt-5-mini"
             return await self._execute_llm_call(
                 self.load_balancer.endpoints[0],
                 request

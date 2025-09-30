@@ -139,16 +139,16 @@ class ModelProfile:
 
 # Model configurations
 MODELS = {
-    "gpt-3.5-turbo": ModelProfile(
-        name="gpt-3.5-turbo",
+    "gpt-5-mini": ModelProfile(
+        name="gpt-5-mini",
         input_cost=0.0005,
         output_cost=0.0015,
         max_tokens=4096,
         quality_score=0.7,
         latency="fast"
     ),
-    "gpt-4-turbo-preview": ModelProfile(
-        name="gpt-4-turbo-preview",
+    "gpt-5": ModelProfile(
+        name="gpt-5",
         input_cost=0.01,
         output_cost=0.03,
         max_tokens=128000,
@@ -275,7 +275,7 @@ class PromptOptimizer:
 
         # 1. Cache check
         if "cache" in strategies:
-            cached = await self.cache.get(prompt, "gpt-4-turbo-preview")
+            cached = await self.cache.get(prompt, "gpt-5")
             if cached:
                 self.metrics["cache_hits"] += 1
                 return {
@@ -371,7 +371,7 @@ class PromptOptimizer:
 
         if not candidates:
             # Fallback to cheapest
-            return MODELS["gpt-3.5-turbo"]
+            return MODELS["gpt-5-mini"]
 
         # Sort by value (quality/cost)
         candidates.sort(key=lambda x: x[0].quality_score / x[1], reverse=True)

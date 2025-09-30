@@ -179,7 +179,7 @@ class QueryDecomposer:
     def _default_decomposition(self, query: str) -> List[str]:
         """Default decomposition using LLM."""
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",
@@ -264,7 +264,7 @@ class QueryExpander:
     def _expand_synonyms(self, query: str, max_expansions: int) -> List[str]:
         """Expand with synonyms."""
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",
@@ -284,7 +284,7 @@ class QueryExpander:
     def _expand_hypernyms(self, query: str, max_expansions: int) -> List[str]:
         """Expand with broader terms."""
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",
@@ -304,7 +304,7 @@ class QueryExpander:
     def _expand_related(self, query: str, max_expansions: int) -> List[str]:
         """Expand with related queries."""
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",
@@ -507,7 +507,7 @@ class IntentClassifier:
         intents_str = ", ".join([i.value for i in IntentType])
 
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",
@@ -943,7 +943,7 @@ class MultiTurnQueryHandler:
         """Extract topic from query."""
         # Simple extraction (could use NER or more sophisticated methods)
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",
@@ -962,7 +962,7 @@ class MultiTurnQueryHandler:
     def _generate_follow_ups(self, query: str) -> List[str]:
         """Generate potential follow-up questions."""
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",
@@ -1096,7 +1096,7 @@ class QueryRewriter:
     def _clarify_query(self, query: str, context: Dict) -> str:
         """Clarify ambiguous queries."""
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",
@@ -1115,7 +1115,7 @@ class QueryRewriter:
     def _specify_query(self, query: str, context: Dict) -> str:
         """Make query more specific."""
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",
@@ -1134,7 +1134,7 @@ class QueryRewriter:
     def _generalize_query(self, query: str, context: Dict) -> str:
         """Make query more general."""
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",
@@ -1153,7 +1153,7 @@ class QueryRewriter:
     def _rephrase_query(self, query: str, context: Dict) -> str:
         """Rephrase query for variety."""
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",
@@ -1172,7 +1172,7 @@ class QueryRewriter:
     def _correct_query(self, query: str, context: Dict) -> str:
         """Correct errors in query."""
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",
@@ -1285,7 +1285,7 @@ class EntityExtractor:
     def _llm_extract(self, query: str) -> List[Dict]:
         """Extract entities using LLM."""
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",

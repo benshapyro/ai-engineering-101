@@ -772,7 +772,7 @@ monitor = PerformanceMonitor()
 # Simulate requests
 import random
 
-models = ["gpt-4", "gpt-3.5-turbo", "claude-3"]
+models = ["gpt-4", "gpt-5-mini", "claude-3"]
 operations = ["generate", "summarize", "translate"]
 
 for i in range(50):
@@ -780,7 +780,7 @@ for i in range(50):
     operation = random.choice(operations)
 
     # Simulate varying performance
-    base_latency = {"gpt-4": 1.0, "gpt-3.5-turbo": 0.5, "claude-3": 0.8}
+    base_latency = {"gpt-4": 1.0, "gpt-5-mini": 0.5, "claude-3": 0.8}
     latency = base_latency.get(model, 1.0) + random.uniform(-0.2, 0.5)
 
     # Introduce anomaly
@@ -829,7 +829,7 @@ class CostTracker:
     # Cost per 1K tokens (example rates)
     MODEL_COSTS = {
         "gpt-4": {"input": 0.03, "output": 0.06},
-        "gpt-3.5-turbo": {"input": 0.001, "output": 0.002},
+        "gpt-5-mini": {"input": 0.001, "output": 0.002},
         "claude-3-opus": {"input": 0.015, "output": 0.075},
         "claude-3-sonnet": {"input": 0.003, "output": 0.015}
     }
@@ -988,7 +988,7 @@ operations = ["chat", "summarize", "translate", "code_generation"]
 
 for _ in range(100):
     model = random.choices(
-        ["gpt-4", "gpt-3.5-turbo", "claude-3-opus"],
+        ["gpt-4", "gpt-5-mini", "claude-3-opus"],
         weights=[0.2, 0.6, 0.2]
     )[0]
 
@@ -1219,7 +1219,7 @@ async def test_observability():
     # Simulate multiple requests
     requests = [
         ("req_001", "generate", "gpt-4", "Write a story about...", "user_1"),
-        ("req_002", "summarize", "gpt-3.5-turbo", "Summarize this text...", "user_2"),
+        ("req_002", "summarize", "gpt-5-mini", "Summarize this text...", "user_2"),
         ("req_003", "translate", "claude-3-opus", "Translate to Spanish...", "user_1"),
     ]
 

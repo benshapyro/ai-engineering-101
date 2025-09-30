@@ -24,7 +24,7 @@ load_dotenv()
 client = OpenAI()
 
 # Initialize tokenizer for GPT models
-encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
+encoding = tiktoken.encoding_for_model("gpt-5-mini")
 
 # ================================
 # Example 1: Token Counting and Analysis
@@ -691,7 +691,7 @@ def compare_prompts(verbose_prompt: str, optimized_prompt: str, test_input: str)
     # Test verbose prompt
     start_time = time.time()
     verbose_response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gpt-5-mini",
         messages=[
             {"role": "user", "content": verbose_prompt.format(input=test_input)}
         ],
@@ -702,7 +702,7 @@ def compare_prompts(verbose_prompt: str, optimized_prompt: str, test_input: str)
     # Test optimized prompt
     start_time = time.time()
     optimized_response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gpt-5-mini",
         messages=[
             {"role": "user", "content": optimized_prompt.format(input=test_input)}
         ],

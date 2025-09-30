@@ -119,7 +119,7 @@ class BasicRAGPipeline:
 
         # Generate response
         response = client.chat.completions.create(
-            model="gpt-4-turbo-preview",
+            model="gpt-5",
             messages=[
                 {
                     "role": "system",
@@ -289,7 +289,7 @@ class AdvancedRAGPipeline:
         ):
             # Score relevance
             score_response = client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model="gpt-5-mini",
                 messages=[{
                     "role": "user",
                     "content": f"Rate the relevance of this text to the query on a scale of 0-10:\nQuery: {query}\nText: {doc[:200]}\nRespond with just a number."
@@ -319,7 +319,7 @@ class AdvancedRAGPipeline:
         ])
 
         response = client.chat.completions.create(
-            model="gpt-4-turbo-preview",
+            model="gpt-5",
             messages=[
                 {
                     "role": "system",
@@ -474,7 +474,7 @@ class HybridSearchRAG:
 
         # Generate response
         response = client.chat.completions.create(
-            model="gpt-4-turbo-preview",
+            model="gpt-5",
             messages=[
                 {
                     "role": "system",
@@ -561,7 +561,7 @@ class StreamingRAG:
 
         # Stream response
         stream = client.chat.completions.create(
-            model="gpt-4-turbo-preview",
+            model="gpt-5",
             messages=[
                 {
                     "role": "system",
@@ -624,7 +624,7 @@ class MultiQueryRAG:
     def generate_queries(self, original_query: str, n: int = 3) -> List[str]:
         """Generate multiple query variations."""
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-5-mini",
             messages=[
                 {
                     "role": "system",
@@ -697,7 +697,7 @@ class MultiQueryRAG:
 
         # Generate response
         response = client.chat.completions.create(
-            model="gpt-4-turbo-preview",
+            model="gpt-5",
             messages=[
                 {
                     "role": "system",
@@ -836,7 +836,7 @@ class CachedRAG:
         # Generate response
         context_text = "\n\n".join(context)
         response = client.chat.completions.create(
-            model="gpt-4-turbo-preview",
+            model="gpt-5",
             messages=[
                 {
                     "role": "system",
@@ -903,7 +903,7 @@ print("=" * 50)
 class RAGConfig:
     """Configuration for production RAG system."""
     embedding_model: str = "text-embedding-3-small"
-    llm_model: str = "gpt-4-turbo-preview"
+    llm_model: str = "gpt-5"
     chunk_size: int = 500
     chunk_overlap: int = 50
     retrieval_k: int = 5
@@ -1081,7 +1081,7 @@ class ProductionRAG:
         for result in results:
             # In production, use a cross-encoder model
             response = client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model="gpt-5-mini",
                 messages=[{
                     "role": "user",
                     "content": f"Rate 0-10 relevance:\nQuery: {query}\nText: {result['document'][:200]}\nJust the number:"

@@ -388,7 +388,7 @@ class ZeroShotProcessor:
         cost_info = estimate_cost(
             input_tokens,
             output_tokens,
-            self.model or "gpt-4-turbo-preview"
+            self.model or "gpt-5"
         )
 
         # Record in history
