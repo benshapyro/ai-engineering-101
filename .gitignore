@@ -28,6 +28,5 @@ Thumbs.db
 .ipynb_checkpoints/
 
 # AI Digest generated files
-codebase.md
-prompting-101-digest.md
-*-digest.md
+ai-digest/*.md
+!ai-digest/README.md
