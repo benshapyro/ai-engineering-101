@@ -1,0 +1,11 @@
+# Dependencies and setup files
+requirements.txt
+
+# Solutions (AI can know they exist but focus on exercises)
+*/solutions/*.py
+
+# Issues tracking (reference only)
+ISSUES.md
+
+# Git-related
+.gitattributes

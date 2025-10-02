@@ -1,0 +1,44 @@
+# Python virtual environment
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment files (contains secrets)
+.env
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Python egg info
+*.egg-info/
+
+# Distribution / packaging
+dist/
+build/
+*.egg
+
+# Test coverage
+.coverage
+htmlcov/
+
+# Large data files
+*.db
+*.sqlite
+*.csv
+*.parquet
