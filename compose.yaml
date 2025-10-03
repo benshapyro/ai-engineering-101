@@ -1,0 +1,89 @@
+# Docker Compose configuration for Prompt Engineering 101 curriculum
+# This file defines services for development, testing, and running examples.
+
+services:
+  # Main application service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: prompting-101:latest
+    container_name: prompting-101-app
+    volumes:
+      # Mount source code for live development
+      - .:/app
+      # Persist run logs
+      - ./runs:/app/runs
+    environment:
+      # API keys from .env file
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - OPENAI_MODEL=${OPENAI_MODEL:-gpt-5}
+      - ANTHROPIC_MODEL=${ANTHROPIC_MODEL:-claude-sonnet-4-5-20250929}
+      # Cost tracking
+      - COST_PER_1M_INPUT=${COST_PER_1M_INPUT}
+      - COST_PER_1M_OUTPUT=${COST_PER_1M_OUTPUT}
+      # Solutions access
+      - ALLOW_SOLUTIONS=${ALLOW_SOLUTIONS:-0}
+    env_file:
+      - .env
+    command: pytest -v -m unit
+    networks:
+      - prompting-101-network
+
+  # Development service with interactive shell
+  dev:
+    extends: app
+    container_name: prompting-101-dev
+    command: /bin/bash
+    stdin_open: true
+    tty: true
+
+  # Testing service
+  test:
+    extends: app
+    container_name: prompting-101-test
+    command: pytest -v --cov=shared --cov-report=html --cov-report=term
+
+  # Jupyter notebook service for interactive exploration
+  jupyter:
+    extends: app
+    container_name: prompting-101-jupyter
+    ports:
+      - "8888:8888"
+    command: >
+      jupyter notebook
+      --ip=0.0.0.0
+      --port=8888
+      --no-browser
+      --allow-root
+      --NotebookApp.token=''
+      --NotebookApp.password=''
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+
+networks:
+  prompting-101-network:
+    driver: bridge
+
+# Usage Examples:
+#
+# Run tests:
+#   docker compose up test
+#
+# Development shell:
+#   docker compose run dev
+#
+# Run specific module:
+#   docker compose run app pytest -m module04
+#
+# Run example:
+#   docker compose run app python 01-fundamentals/examples/basic_prompting.py --all
+#
+# Start Jupyter:
+#   docker compose up jupyter
+#   Open http://localhost:8888 in browser
+#
+# Clean up:
+#   docker compose down
+#   docker compose down -v  # Remove volumes

@@ -1,0 +1,27 @@
+# Development Dependencies for Prompt Engineering 101
+
+# Testing
+pytest>=8.0.0
+pytest-cov>=4.1.0
+pytest-asyncio>=0.23.0
+pytest-watch>=4.2.0
+
+# Code Quality
+black>=24.0.0
+flake8>=7.0.0
+pylint>=3.0.0
+mypy>=1.8.0
+
+# Security
+bandit>=1.7.5
+safety>=3.0.0
+
+# Jupyter for interactive development
+jupyter>=1.0.0
+ipython>=8.20.0
+notebook>=7.0.0
+
+# Type stubs
+types-requests
+types-PyYAML
+types-redis
