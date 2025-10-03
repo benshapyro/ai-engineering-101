@@ -17,8 +17,12 @@ from src.rag_system import RAGSystem, RAGResult
 @pytest.fixture
 def rag_system():
     """Create RAG system for testing."""
+    # Get the capstone directory path
+    capstone_dir = Path(__file__).parent.parent
+    data_path = capstone_dir / "data" / "python_docs.jsonl"
+
     return RAGSystem(
-        data_path="data/python_docs.jsonl",
+        data_path=str(data_path),
         model="gpt-5",
         retrieval_top_k=5
     )
@@ -90,7 +94,10 @@ def test_caching(rag_system):
 @pytest.mark.integration
 def test_evaluation(rag_system):
     """Test evaluation metrics calculation."""
-    metrics = rag_system.evaluate("data/test_queries.jsonl")
+    capstone_dir = Path(__file__).parent.parent
+    test_queries_path = capstone_dir / "data" / "test_queries.jsonl"
+
+    metrics = rag_system.evaluate(str(test_queries_path))
 
     assert "recall_at_k" in metrics
     assert "avg_confidence" in metrics

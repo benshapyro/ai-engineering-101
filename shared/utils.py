@@ -118,13 +118,30 @@ class LLMClient:
                 messages.append({"role": "system", "content": system_message})
             messages.append({"role": "user", "content": prompt})
 
-            response = self.client.chat.completions.create(
-                model=model,
-                messages=messages,
-                temperature=temperature,
-                max_tokens=max_tokens,
-                **kwargs
-            )
+            # GPT-5 and o1 models have different parameter requirements
+            # - Use max_completion_tokens instead of max_tokens
+            # - Only support temperature=1 (default)
+            uses_new_api = any(m in model for m in ["gpt-5", "o1", "o3"])
+
+            api_params = {
+                "model": model,
+                "messages": messages,
+            }
+
+            # Handle temperature - GPT-5/o1 only support temperature=1
+            if not uses_new_api or temperature == 1.0:
+                api_params["temperature"] = temperature
+            # Otherwise, skip temperature parameter (uses default of 1)
+
+            # Handle token limits
+            if uses_new_api:
+                api_params["max_completion_tokens"] = max_tokens
+            else:
+                api_params["max_tokens"] = max_tokens
+
+            api_params.update(kwargs)
+
+            response = self.client.chat.completions.create(**api_params)
             return response.choices[0].message.content
 
         elif self.provider == "anthropic":
@@ -164,14 +181,28 @@ class LLMClient:
                 messages.append({"role": "system", "content": system_message})
             messages.append({"role": "user", "content": prompt})
 
-            stream = self.client.chat.completions.create(
-                model=model,
-                messages=messages,
-                temperature=temperature,
-                max_tokens=max_tokens,
-                stream=True,
-                **kwargs
-            )
+            # GPT-5 and o1 models have different parameter requirements
+            uses_new_api = any(m in model for m in ["gpt-5", "o1", "o3"])
+
+            api_params = {
+                "model": model,
+                "messages": messages,
+                "stream": True,
+            }
+
+            # Handle temperature - GPT-5/o1 only support temperature=1
+            if not uses_new_api or temperature == 1.0:
+                api_params["temperature"] = temperature
+
+            # Handle token limits
+            if uses_new_api:
+                api_params["max_completion_tokens"] = max_tokens
+            else:
+                api_params["max_tokens"] = max_tokens
+
+            api_params.update(kwargs)
+
+            stream = self.client.chat.completions.create(**api_params)
 
             for chunk in stream:
                 if chunk.choices[0].delta.content:
