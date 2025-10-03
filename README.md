@@ -2,13 +2,16 @@
 
 A comprehensive, hands-on curriculum for mastering prompt engineering and context engineering with Large Language Models (LLMs).
 
-## ✅ Status: 100% Complete - Production Ready
+## 🚧 Status: Beta - Actively Maintained
 
-- **14 Modules** | **86 Python Files** | **42 Example Programs** | **Fully Tested**
+- **14 Modules** | **86 Python Files** | **42 Example Programs** | **In Active Development**
 - All modules include examples, exercises, solutions, and production projects
-- Comprehensive quality assurance completed ([see ISSUES.md](ISSUES.md))
+- **Known Gaps** (tracked in [docs/PR-10-02-25.md](docs/PR-10-02-25.md)):
+  - 848 exercise TODOs being completed progressively
+  - RAG reranker migrating from LLM scoring to HuggingFace cross-encoder
+  - CI/CD examples being enhanced for production readiness
+- Comprehensive quality assurance completed ([see docs/ISSUES.md](docs/ISSUES.md))
 - All dependencies verified and documented
-- Ready for immediate use
 
 ## 🎯 Learning Objectives
 
