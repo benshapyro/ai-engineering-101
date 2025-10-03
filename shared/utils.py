@@ -164,22 +164,49 @@ class LLMClient:
                     yield text
 
 
-def count_tokens(text: str, model: str = "gpt-4") -> int:
+def get_encoding(model: str):
     """
-    Count tokens in a text string.
+    Get tiktoken encoding with robust fallback for unknown models.
+
+    Falls back through:
+    1. tiktoken.encoding_for_model(model) - standard lookup
+    2. o200k_base - for newer models (GPT-5, o1, etc.)
+    3. cl100k_base - universal fallback (GPT-4, GPT-3.5)
+
+    Args:
+        model: Model name
+
+    Returns:
+        tiktoken Encoding object
+    """
+    try:
+        return tiktoken.encoding_for_model(model)
+    except KeyError:
+        # Try o200k_base for newer models
+        try:
+            return tiktoken.get_encoding("o200k_base")
+        except Exception:
+            # Ultimate fallback to cl100k_base
+            return tiktoken.get_encoding("cl100k_base")
+
+
+def count_tokens(text: str, model: str = "gpt-5") -> int:
+    """
+    Count tokens in a text string with robust encoding fallback.
 
     Args:
         text: Text to count tokens for
-        model: Model to use for encoding
+        model: Model to use for encoding (defaults to gpt-5)
 
     Returns:
         Number of tokens
-    """
-    try:
-        encoding = tiktoken.encoding_for_model(model)
-    except KeyError:
-        encoding = tiktoken.get_encoding("cl100k_base")
 
+    Example:
+        tokens = count_tokens("Hello world", "gpt-5")
+        # Works even with unknown models
+        tokens = count_tokens("Hello world", "future-model-xyz")
+    """
+    encoding = get_encoding(model)
     return len(encoding.encode(text))
 
 
