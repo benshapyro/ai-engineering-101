@@ -6,6 +6,7 @@ import os
 import json
 import time
 import tiktoken
+import yaml
 from typing import Dict, List, Optional, Any
 from dotenv import load_dotenv
 import openai
@@ -13,6 +14,22 @@ from anthropic import Anthropic
 
 # Load environment variables
 load_dotenv()
+
+
+def load_model_config(config_path: str = "config/models.yml") -> dict:
+    """
+    Load model configuration from YAML file.
+
+    Args:
+        config_path: Path to config file (defaults to config/models.yml)
+
+    Returns:
+        Configuration dictionary, or empty dict if file not found
+    """
+    if os.path.exists(config_path):
+        with open(config_path, 'r') as f:
+            return yaml.safe_load(f) or {}
+    return {}
 
 
 class LLMClient:
@@ -169,21 +186,107 @@ def count_tokens(text: str, model: str = "gpt-4") -> int:
 def estimate_cost(
     input_tokens: int,
     output_tokens: int,
-    model: str = "gpt-5"
+    model: str = "gpt-5",
+    config: dict = None
 ) -> Dict[str, float]:
     """
     Estimate API cost for a completion.
+
+    Pricing is loaded from (in priority order):
+    1. Provided config parameter
+    2. config/models.yml file
+    3. Environment variables (COST_PER_1M_INPUT, COST_PER_1M_OUTPUT)
+    4. Default illustrative pricing (with warning)
 
     Args:
         input_tokens: Number of input tokens
         output_tokens: Number of output tokens
         model: Model name
+        config: Optional config dict (loaded from file if None)
 
     Returns:
         Dictionary with cost breakdown
+
+    Example:
+        # Using config file
+        cost = estimate_cost(1000, 500, "gpt-5")
+
+        # Using environment variables
+        os.environ["COST_PER_1M_INPUT"] = "5.00"
+        os.environ["COST_PER_1M_OUTPUT"] = "15.00"
+        cost = estimate_cost(1000, 500)
     """
-    # Pricing as of September 2025 (per 1M tokens)
-    pricing = {
+    # Try to load config if not provided
+    if config is None:
+        config = load_model_config()
+
+    # Check environment variables
+    env_input = os.getenv("COST_PER_1M_INPUT")
+    env_output = os.getenv("COST_PER_1M_OUTPUT")
+
+    # Determine pricing source
+    if env_input and env_output:
+        # Use environment variables (highest priority)
+        input_cost = (input_tokens / 1_000_000) * float(env_input)
+        output_cost = (output_tokens / 1_000_000) * float(env_output)
+    elif config:
+        # Try to find model in config
+        # Handle model names like "gpt-5" or "openai/gpt-5" or "claude-sonnet-4-5-20250929"
+        provider = None
+        model_name = model
+
+        # Check if model has provider prefix
+        if "/" in model:
+            provider, model_name = model.split("/", 1)
+        else:
+            # Try to guess provider
+            if model.startswith("gpt") or model.startswith("o1"):
+                provider = "openai"
+            elif model.startswith("claude"):
+                provider = "anthropic"
+
+        # Search for model in config
+        found = False
+        if provider and provider in config:
+            if model_name in config[provider]:
+                model_config = config[provider][model_name]
+                input_cost = (input_tokens / 1_000_000) * model_config["input_per_1m"]
+                output_cost = (output_tokens / 1_000_000) * model_config["output_per_1m"]
+                found = True
+
+        if not found:
+            # Model not in config, fall back to defaults
+            print(f"⚠️  Model '{model}' not found in config/models.yml")
+            print(f"⚠️  Using illustrative pricing. Set COST_PER_1M_INPUT/OUTPUT env vars or update config.")
+            input_cost, output_cost = _get_default_pricing(input_tokens, output_tokens, model)
+    else:
+        # No config or env vars, use defaults with warning
+        print(f"⚠️  No pricing config found (config/models.yml missing)")
+        print(f"⚠️  Costs are illustrative only. Set COST_PER_1M_INPUT/OUTPUT env vars or create config/models.yml")
+        input_cost, output_cost = _get_default_pricing(input_tokens, output_tokens, model)
+
+    return {
+        "input_cost": round(input_cost, 4),
+        "output_cost": round(output_cost, 4),
+        "total_cost": round(input_cost + output_cost, 4),
+        "input_tokens": input_tokens,
+        "output_tokens": output_tokens,
+        "model": model
+    }
+
+
+def _get_default_pricing(input_tokens: int, output_tokens: int, model: str) -> tuple:
+    """
+    Get default illustrative pricing for a model.
+
+    These are example prices from September 2025 and should not be used
+    for actual cost calculations.
+
+    Returns:
+        Tuple of (input_cost, output_cost)
+    """
+    # Default pricing (illustrative only, as of September 2025)
+    default_pricing = {
         "gpt-5": {"input": 5.00, "output": 15.00},
         "gpt-5-mini": {"input": 0.30, "output": 1.20},
         "gpt-5-nano": {"input": 0.10, "output": 0.40},
@@ -193,19 +296,16 @@ def estimate_cost(
         "claude-3-5-haiku-20241022": {"input": 0.80, "output": 4.00},
     }
 
-    if model not in pricing:
-        return {"error": f"Unknown model: {model}"}
+    if model in default_pricing:
+        pricing = default_pricing[model]
+    else:
+        # Unknown model, use GPT-5 pricing as default
+        pricing = default_pricing["gpt-5"]
 
-    input_cost = (input_tokens / 1_000_000) * pricing[model]["input"]
-    output_cost = (output_tokens / 1_000_000) * pricing[model]["output"]
+    input_cost = (input_tokens / 1_000_000) * pricing["input"]
+    output_cost = (output_tokens / 1_000_000) * pricing["output"]
 
-    return {
-        "input_cost": round(input_cost, 4),
-        "output_cost": round(output_cost, 4),
-        "total_cost": round(input_cost + output_cost, 4),
-        "input_tokens": input_tokens,
-        "output_tokens": output_tokens
-    }
+    return (input_cost, output_cost)
 
 
 def format_messages_for_display(messages: List[Dict[str, str]]) -> str:
