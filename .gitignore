@@ -30,3 +30,7 @@ Thumbs.db
 # AI Digest generated files
 ai-digest/*.md
 !ai-digest/README.md
+
+# Run logs (keep directory structure)
+runs/*.jsonl
+!runs/.gitkeep
