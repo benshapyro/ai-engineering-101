@@ -40,6 +40,10 @@ ipykernel>=6.27.0
 matplotlib>=3.7.0
 rich>=13.7.0
 
+# For testing and autograding
+pytest>=7.4.0
+pytest-cov>=4.1.0
+
 # Optional: For production patterns
 fastapi>=0.109.0
 uvicorn>=0.27.0
