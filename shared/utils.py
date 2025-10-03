@@ -33,7 +33,37 @@ def load_model_config(config_path: str = "config/models.yml") -> dict:
 
 
 class LLMClient:
-    """Unified client for OpenAI and Anthropic models."""
+    """
+    Unified client for OpenAI and Anthropic models.
+
+    Sampling Parameter Conventions:
+    --------------------------------
+    This client follows standardized parameter naming and defaults:
+
+    temperature (float, default=0.7):
+        Controls randomness. Range: 0.0 to 2.0
+        - 0.0-0.3: Deterministic, factual tasks, code generation
+        - 0.7-1.0: Balanced creativity and consistency (recommended default)
+        - 1.0-2.0: Creative writing, brainstorming, diverse outputs
+
+    max_tokens (int, default=1000):
+        Maximum tokens in response. Set based on expected output length.
+        - Short answers: 100-500
+        - Paragraphs: 500-2000
+        - Long form: 2000-4000
+
+    top_p (float, default=1.0):
+        Nucleus sampling. Use temperature OR top_p, not both.
+        - 1.0: No filtering (default)
+        - 0.9: Filter low-probability tokens
+        - Lower values (0.1-0.5): More focused outputs
+
+    Best Practices:
+    - Use temperature=0.0 for reproducible testing
+    - Use temperature=0.7 as default for balanced outputs
+    - Don't adjust both temperature and top_p simultaneously
+    - Set max_tokens based on actual needs to control costs
+    """
 
     def __init__(self, provider: str = "openai"):
         """
