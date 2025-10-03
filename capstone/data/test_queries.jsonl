@@ -1,0 +1,5 @@
+{"query": "How do list comprehensions work?", "expected_answer": "List comprehensions provide a concise way to create lists using the syntax [expression for item in iterable if condition]", "relevant_docs": ["python_001"], "difficulty": "easy"}
+{"query": "What are Python decorators used for?", "expected_answer": "Decorators modify function behavior and are commonly used for logging, timing, authentication, and caching", "relevant_docs": ["python_003"], "difficulty": "medium"}
+{"query": "When should I use generators instead of lists?", "expected_answer": "Use generators for large datasets or infinite streams because they compute values on-demand and are memory-efficient", "relevant_docs": ["python_004"], "difficulty": "medium"}
+{"query": "How do I handle errors in Python?", "expected_answer": "Use try-except blocks, catch specific exceptions, and use finally for cleanup", "relevant_docs": ["python_007"], "difficulty": "easy"}
+{"query": "What is the difference between async and multiprocessing?", "expected_answer": "Async is for I/O-bound operations, multiprocessing is for CPU-bound tasks", "relevant_docs": ["python_008"], "difficulty": "hard"}
