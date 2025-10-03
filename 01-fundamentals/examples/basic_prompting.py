@@ -22,6 +22,14 @@ def example_1_clarity_comparison():
     # Vague prompt
     vague_prompt = "Tell me about dogs"
     print("\nVague Prompt:", vague_prompt)
+
+    # Estimate cost before making request
+    input_tokens = count_tokens(vague_prompt)
+    estimated_output = 100  # max_tokens
+    print(f"\nEstimated cost for vague prompt:")
+    cost_est = estimate_cost(input_tokens, estimated_output, "gpt-5")
+    print(f"  Input: {input_tokens} tokens | Output: ~{estimated_output} tokens | Cost: ~${cost_est['total_cost']}")
+
     vague_response = client.complete(vague_prompt, temperature=0.7, max_tokens=100)
     print("Response:", vague_response[:200] + "...")
 
@@ -31,14 +39,24 @@ def example_1_clarity_comparison():
 
     print("\n" + "-" * 40)
     print("\nSpecific Prompt:", specific_prompt)
+
+    # Estimate cost for specific prompt
+    input_tokens = count_tokens(specific_prompt)
+    estimated_output = 150
+    print(f"\nEstimated cost for specific prompt:")
+    cost_est = estimate_cost(input_tokens, estimated_output, "gpt-5")
+    print(f"  Input: {input_tokens} tokens | Output: ~{estimated_output} tokens | Cost: ~${cost_est['total_cost']}")
+
     specific_response = client.complete(specific_prompt, temperature=0.7)
     print("Response:", specific_response)
 
-    # Compare token usage
+    # Compare actual token usage
     vague_tokens = count_tokens(vague_response)
     specific_tokens = count_tokens(specific_response)
-    print(f"\nVague response tokens: {vague_tokens}")
-    print(f"Specific response tokens: {specific_tokens}")
+    print(f"\nActual token usage:")
+    print(f"  Vague response: {vague_tokens} tokens")
+    print(f"  Specific response: {specific_tokens} tokens")
+    print(f"\n💡 Tip: Specific prompts often yield better results with similar or lower token costs!")
 
 
 def example_2_temperature_effects():
